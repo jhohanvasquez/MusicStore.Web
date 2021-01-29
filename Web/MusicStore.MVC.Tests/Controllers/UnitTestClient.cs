@@ -29,7 +29,6 @@ namespace MusicStore.MVC.Tests.Controllers
             string Direction = "Cll 10";
             string Phone = "3003198765";
             var result = dbControllerClient.RegistrarClient(idValue, Name, Mail, Direction, Phone, string.Empty) as JsonResult;
-
             //assert     
             Assert.AreEqual("exist", (string)result.Data);
         }
@@ -43,7 +42,6 @@ namespace MusicStore.MVC.Tests.Controllers
             string Direction = "Cll 10";
             string Phone = "3003198765";
             var result = dbControllerClient.EditarClient(idValue, Name, Mail, Direction, Phone) as JsonResult;
-
             //assert     
             Assert.AreEqual("save", (string)result.Data);
         }
