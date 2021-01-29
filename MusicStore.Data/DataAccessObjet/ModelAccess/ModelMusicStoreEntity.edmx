@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BdMusicStoreModelEntity.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AlbumSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" />
+          <Property Name="Direction" Type="nvarchar" MaxLength="500" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Photo" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PurchaseDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Album_Id" Type="int" Nullable="false" />
+          <Property Name="Client_Id" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Total" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SongSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Album_Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_PurchaseDetail_AlbunSet">
+          <End Role="AlbumSet" Type="Self.AlbumSet" Multiplicity="1" />
+          <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlbumSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="Album_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseDetail_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="Client_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SongSet_AlbunSet">
+          <End Role="AlbumSet" Type="Self.AlbumSet" Multiplicity="1" />
+          <End Role="SongSet" Type="Self.SongSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlbumSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SongSet">
+              <PropertyRef Name="Album_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="DeleteClient" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="ListorDetailClient" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="RegisterOrSaveUserClient" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="nvarchar" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Mail" Type="nvarchar" Mode="In" />
+          <Parameter Name="Direction" Type="nvarchar" Mode="In" />
+          <Parameter Name="Phone" Type="nvarchar" Mode="In" />
+          <Parameter Name="Photo" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="BdMusicStoreModelEntityStoreContainer">
+          <EntitySet Name="AlbumSet" EntityType="Self.AlbumSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseDetail" EntityType="Self.PurchaseDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SongSet" EntityType="Self.SongSet" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PurchaseDetail_AlbunSet" Association="Self.FK_PurchaseDetail_AlbunSet">
+            <End Role="AlbumSet" EntitySet="AlbumSet" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDetail_Client" Association="Self.FK_PurchaseDetail_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SongSet_AlbunSet" Association="Self.FK_SongSet_AlbunSet">
+            <End Role="AlbumSet" EntitySet="AlbumSet" />
+            <End Role="SongSet" EntitySet="SongSet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BdMusicStoreModelEntity" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AlbumSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PurchaseDetail" Relationship="Self.FK_PurchaseDetail_AlbunSet" FromRole="AlbumSet" ToRole="PurchaseDetail" />
+          <NavigationProperty Name="SongSet" Relationship="Self.FK_SongSet_AlbunSet" FromRole="AlbumSet" ToRole="SongSet" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Direction" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PurchaseDetail" Relationship="Self.FK_PurchaseDetail_Client" FromRole="Client" ToRole="PurchaseDetail" />
+        </EntityType>
+        <EntityType Name="PurchaseDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Album_Id" Type="Int32" Nullable="false" />
+          <Property Name="Client_Id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Total" Type="Single" Nullable="false" />
+          <NavigationProperty Name="AlbumSet" Relationship="Self.FK_PurchaseDetail_AlbunSet" FromRole="PurchaseDetail" ToRole="AlbumSet" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_PurchaseDetail_Client" FromRole="PurchaseDetail" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="SongSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Album_Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AlbumSet" Relationship="Self.FK_SongSet_AlbunSet" FromRole="SongSet" ToRole="AlbumSet" />
+        </EntityType>
+        <Association Name="FK_PurchaseDetail_AlbunSet">
+          <End Role="AlbumSet" Type="Self.AlbumSet" Multiplicity="1" />
+          <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlbumSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="Album_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SongSet_AlbunSet">
+          <End Role="AlbumSet" Type="Self.AlbumSet" Multiplicity="1" />
+          <End Role="SongSet" Type="Self.SongSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlbumSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SongSet">
+              <PropertyRef Name="Album_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseDetail_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="Client_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BdMusicStore" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AlbumSet" EntityType="Self.AlbumSet" />
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="PurchaseDetail" EntityType="Self.PurchaseDetail" />
+          <EntitySet Name="SongSet" EntityType="Self.SongSet" />
+          <AssociationSet Name="FK_PurchaseDetail_AlbunSet" Association="Self.FK_PurchaseDetail_AlbunSet">
+            <End Role="AlbumSet" EntitySet="AlbumSet" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SongSet_AlbunSet" Association="Self.FK_SongSet_AlbunSet">
+            <End Role="AlbumSet" EntitySet="AlbumSet" />
+            <End Role="SongSet" EntitySet="SongSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDetail_Client" Association="Self.FK_PurchaseDetail_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
+          </AssociationSet>
+          <FunctionImport Name="DeleteClient">
+          <Parameter Name="Id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RegisterOrSaveUserClient" EntitySet="Client" ReturnType="Collection(BdMusicStoreModelEntity.Client)">
+            <Parameter Name="Id" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Mail" Mode="In" Type="String" />
+            <Parameter Name="Direction" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="Photo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ListorDetailClient" EntitySet="Client" ReturnType="Collection(BdMusicStoreModelEntity.Client)">
+          <Parameter Name="Id" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="ListClient_Result">
+          <Property Type="String" Name="Id" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Mail" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Direction" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Photo" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ListorDetailClient_Result">
+          <Property Type="String" Name="Id" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Mail" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Direction" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Photo" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BdMusicStoreModelEntityStoreContainer" CdmEntityContainer="BdMusicStore">
+          <EntitySetMapping Name="AlbumSet">
+            <EntityTypeMapping TypeName="BdMusicStoreModelEntity.AlbumSet">
+              <MappingFragment StoreEntitySet="AlbumSet">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Client">
+            <EntityTypeMapping TypeName="BdMusicStoreModelEntity.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Direction" ColumnName="Direction" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseDetail">
+            <EntityTypeMapping TypeName="BdMusicStoreModelEntity.PurchaseDetail">
+              <MappingFragment StoreEntitySet="PurchaseDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Album_Id" ColumnName="Album_Id" />
+                <ScalarProperty Name="Client_Id" ColumnName="Client_Id" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SongSet">
+            <EntityTypeMapping TypeName="BdMusicStoreModelEntity.SongSet">
+              <MappingFragment StoreEntitySet="SongSet">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Album_Id" ColumnName="Album_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteClient" FunctionName="BdMusicStoreModelEntity.Store.DeleteClient" />
+          <FunctionImportMapping FunctionImportName="RegisterOrSaveUserClient" FunctionName="BdMusicStoreModelEntity.Store.RegisterOrSaveUserClient" />
+          <FunctionImportMapping FunctionImportName="ListorDetailClient" FunctionName="BdMusicStoreModelEntity.Store.ListorDetailClient">
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

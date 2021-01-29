@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BdMusicStoreModelWeb.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AlbumSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Mail" Type="nvarchar" MaxLength="50" />
+    <Property Name="Direction" Type="nvarchar" MaxLength="500" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+    <Property Name="Photo" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="PurchaseDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Album_Id" Type="int" Nullable="false" />
+    <Property Name="Client_Id" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Total" Type="real" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SongSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Album_Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_PurchaseDetail_AlbunSet">
+    <End Role="AlbumSet" Type="Self.AlbumSet" Multiplicity="1" />
+    <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AlbumSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PurchaseDetail">
+        <PropertyRef Name="Album_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseDetail_Client">
+    <End Role="Client" Type="Self.Client" Multiplicity="1" />
+    <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PurchaseDetail">
+        <PropertyRef Name="Client_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SongSet_AlbunSet">
+    <End Role="AlbumSet" Type="Self.AlbumSet" Multiplicity="1" />
+    <End Role="SongSet" Type="Self.SongSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AlbumSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SongSet">
+        <PropertyRef Name="Album_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BdMusicStoreModelWebStoreContainer">
+    <EntitySet Name="AlbumSet" EntityType="Self.AlbumSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseDetail" EntityType="Self.PurchaseDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SongSet" EntityType="Self.SongSet" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_PurchaseDetail_AlbunSet" Association="Self.FK_PurchaseDetail_AlbunSet">
+      <End Role="AlbumSet" EntitySet="AlbumSet" />
+      <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseDetail_Client" Association="Self.FK_PurchaseDetail_Client">
+      <End Role="Client" EntitySet="Client" />
+      <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SongSet_AlbunSet" Association="Self.FK_SongSet_AlbunSet">
+      <End Role="AlbumSet" EntitySet="AlbumSet" />
+      <End Role="SongSet" EntitySet="SongSet" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

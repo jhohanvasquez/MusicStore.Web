@@ -1,0 +1,96 @@
+﻿@model MusicStore.MVC.Models.SongSet
+
+@{
+    ViewBag.Title = "Detalle Canción";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!-- some CSS styling changes and overrides -->
+<style>
+    .kv-avatar .file-preview-frame, .kv-avatar .file-preview-frame:hover {
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        text-align: center;
+    }
+
+    .kv-avatar .file-input {
+        display: table-cell;
+        max-width: 220px;
+    }
+</style>
+@Html.HiddenFor(model => model.Id, new { @class = "form-control", @id = "hddId" })
+
+<!-- breadcrumb -->
+<div id="breadcrumb">
+    <ul class="breadcrumb">
+        <li><i class="fa fa-home"></i><a href="@Url.Action("Index", "Admin")"> Inicio</a></li>
+        <li>Registro SongSet</li>
+        <li class="active">Detalle SongSet</li>
+    </ul>
+</div>
+
+<!-- Titulo de página -->
+<div class="main-header clearfix">
+    <div class="page-title">
+        <h3 class="no-margin"><i class="fa fa-user fa-sm"></i>&nbsp;Detalle Canción - @ViewBag.AlbumSet</h3>
+    </div>
+</div>
+
+
+<div class="padding-md">
+    <div class="row">
+
+        <!-- Contenido -->
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="pull-left">
+                        <i class="fa fa-user"></i>&nbsp;Detalle Canción
+                    </span>
+                    <ul class="tool-bar">
+                        <li><a href="#" class="refresh-widget" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Actualizar"><i class="fa fa-refresh"></i></a></li>
+                        <li><a href="#aportes" data-toggle="collapse"><i class="fa fa-arrows-v"></i></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body collapse in">
+                    <!-- body -->
+                    <div class="col-md-12">
+
+                        <form class="form-horizontal no-margin" id="formValidate" data-validate="parsley">
+
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Name</label>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "txtcedula", @data_required = "true" } })
+                                </div>
+                            </div>
+
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div style="text-align:center">
+                                    <a id="btneditar" href="@Url.Action("Edit", "SongSet",new {id = Model.Id})" class="btn btn-primary animated-bar">
+                                        <i class="fa fa-edit"></i>&nbsp; Editar
+                                    </a>
+                                    <a class="btn btn-default" href="@Url.Action("Index", "SongSet", new {Id = 0, Name = ""})">
+                                        <i class="fa fa-reply"></i>&nbsp; Volver al Listado
+                                    </a>
+                                </div>
+                            }
+                        </form>
+
+                    </div>
+                    <div class="loading-overlay">
+                        <i class="loading-icon fa fa-refresh fa-spin fa-lg"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contenido -->
+
+    </div>
+</div>
+

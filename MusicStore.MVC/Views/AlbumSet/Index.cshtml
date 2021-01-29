@@ -1,0 +1,121 @@
+﻿@using MusicStore.MVC.Controllers
+@using MusicStore.MVC.Models
+@model IEnumerable<MusicStore.MVC.Models.AlbumSet>
+
+@{
+    ViewBag.Title = "Listado de Albun";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- breadcrumb -->
+<div id="breadcrumb">
+    <ul class="breadcrumb">
+        <li><i class="fa fa-home"></i><a href="@Url.Action("Index", "Admin")"> Inicio</a></li>
+        <li>Administración Votación</li>
+        <li class="active">Listado de Albunes</li>
+    </ul>
+</div>
+<!-- Titulo de página -->
+<div class="main-header clearfix">
+    <div class="page-title">
+        <h3 class="no-margin">
+            <i class="fa fa-list fa-sm"></i>&nbsp; Listado de Albunes
+        </h3>
+        <span>Listado Albunes.</span>
+    </div>
+</div>
+
+<div class="padding-md">
+    <div class="row">
+
+        <!-- Contenido -->
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="pull-left">
+                        <i class="fa fa-edit"></i> Albun
+                    </span>
+                    <ul class="tool-bar">
+
+                        <li>
+                            <a href="@Url.Action("Create", "AlbumSet")" data-
+                               toggle="tooltip" data-placement="bottom" title="Registrar Albun" data-original-title="Registrar Albun">
+                                <i class="fa fa-plus-square"></i>&nbsp; Registrar Albun
+                            </a>
+                        </li>
+
+                        <li><a href="#" class="refresh-widget" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Actualizar"><i class="fa fa-refresh"></i></a></li>
+                        <li><a href="#aportes" data-toggle="collapse"><i class="fa fa-arrows-v"></i></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body collapse in" id="">
+                    <!-- body -->
+                    <div class="table-responsive" style="min-height: 340px">
+                        <table class="table table-striped table-bordered table-hover" id="responsiveTable">
+                            <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            <a id="btnedit" href="@Url.Action("Index", "SongSet", new {id = item.Id, name = item.Name})" cl class="btn btn-default animated-bar">
+                                                <i class="fa fa-edit"></i>&nbsp;Administrar Canciones
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a id="btnedit" href="@Url.Action("Edit", "AlbumSet", new {id = item.Id})" cl class="btn btn-default animated-bar">
+                                                <i class="fa fa-edit"></i>&nbsp;Editar Album
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a id="btnedit" href="@Url.Action("Details", "AlbumSet", new {id = item.Id})" cl class="btn btn-default animated-bar">
+                                                <i class="fa fa-list"></i>&nbsp;Detalle Album
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a id="btnedit" href="@Url.Action("Delete", "AlbumSet", new {id = item.Id})" cl class="btn btn-default animated-bar">
+                                                <i class="fa fa-trash"></i>&nbsp;Eliminar Album
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <!-- /body -->
+                </div>
+                <div class="loading-overlay">
+                    <i class="loading-icon fa fa-refresh fa-spin fa-lg"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        var table = $('#responsiveTable').DataTable({
+            buttons: {
+                name: 'primary',
+                buttons: ['copy', 'excel', 'csv', 'pdf', 'print', 'colvis']
+            }
+        });
+        table.buttons().container()
+            .insertBefore('#responsiveTable_filter');
+    });
+</script>

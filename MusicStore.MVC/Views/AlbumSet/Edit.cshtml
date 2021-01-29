@@ -1,0 +1,132 @@
+﻿@model MusicStore.MVC.Models.AlbumSet
+
+@{
+    ViewBag.Title = "Editar Albun";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- breadcrumb -->
+<div id="breadcrumb">
+    <ul class="breadcrumb">
+        <li><i class="fa fa-home"></i><a href="@Url.Action("Index", "AlbumSet")"> Inicio</a></li>
+        <li><a href="@Url.Action("Index", "AlbumSet")">Administración Albun</a></li>
+    </ul>
+</div>
+<!-- breadcrumb -->
+<!-- Titulo de página -->
+<div class="main-header clearfix">
+    <div class="page-title">
+        <h3 class="no-margin">
+            <i class="fa fa-edit fa-sm"></i>&nbsp; Editar Albun
+        </h3>
+        <span>Edite su Albun.</span>
+    </div>
+</div>
+
+<div class="text-center">
+    <a class="btn btn-default" href="@Url.Action("Index", "AlbumSet", new {active = false})">
+        <i class="fa fa-reply"></i>&nbsp; Volver al Listado
+    </a>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id, new { @id = "Id" })
+
+    @Html.ValidationSummary(true)
+
+    <div class="padding-md">
+        <div class="row">
+
+            <!-- Contenido -->
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <span class="pull-left">
+                            <i class="fa fa-edit"></i>&nbsp;Editar Albun
+                        </span>
+                        <ul class="tool-bar">
+                            <li><a href="#" class="refresh-widget" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Actualizar"><i class="fa fa-refresh"></i></a></li>
+                            <li><a href="#aportes" data-toggle="collapse"><i class="fa fa-arrows-v"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body collapse in">
+                        <!-- body -->
+                        <div class="col-md-12">
+
+                            <table class="table table-striped table-bordered table-hover" id="responsiveTable">
+                                <tbody>
+                                    <tr>
+                                        <th>Descripción:</th>
+                                        <td>@Html.DisplayFor(model => model.Name)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- /body -->
+                        </div>
+                        <div class="loading-overlay">
+                            <i class="loading-icon fa fa-refresh fa-spin fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Contenido -->
+            <br />
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+
+
+
+}
+
+<script type="text/javascript">
+
+    $("#btnUpdate").click(function () {
+        var token = $('[name=__RequestVerificationToken]').val();
+        var id = $('#Id').val();
+
+        $.ajax({
+            dataType: 'json',
+            async: false,
+            type: "POST",
+            headers: { "__RequestVerificationToken": token },
+            url: '@Url.Action("UpdateState", "AlbumSet")',
+            data: JSON.stringify({ IdAlbumSet: id }),
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                switch (result) {
+                    case 0:
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "progressBar": true,
+                            "positionClass": "toast-top-full-width",
+                            "onclick": null,
+                            "showDuration": "500",
+                            "hideDuration": "1000",
+                            "timeOut": "3000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.options.onHidden = function () {
+                            waitingDialog.show('Redireccionando, Por favor Espere...');
+                            $(location).attr('href', "@Url.Action("Edit", "AlbumSet")");
+                        };
+                        toastr.success('El Albun fue editado con exito.', 'Edición Albun');
+                        break;
+
+                }
+
+            }
+        });
+
+    });
+
+</script>

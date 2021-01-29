@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+
+    <link rel="icon" type="image/png" href="~/Content/images/index.ico">
+
+    <!-- Jquery -->
+    <script src="~/Content/js/jquery-1.10.2.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Datepicker -->
+    <link href="~/Content/css/datepicker.css" rel="stylesheet" />
+
+    <!-- Timepicker -->
+    <link href="~/Content/css/bootstrap-timepicker.css" rel="stylesheet" />
+
+    <!-- Slider -->
+    <link href="~/Content/css/slider.css" rel="stylesheet" />
+
+    <!-- Tag input -->
+    <link href="~/Content/css/jquery.tagsinput.css" rel="stylesheet" />
+
+    <!-- WYSIHTML5 -->
+    <link href="~/Content/css/bootstrap-wysihtml5.css" rel="stylesheet" />
+
+    <!-- Dropzone -->
+    <link href='~/Content/css/dropzone/dropzone.css' rel="stylesheet" />
+
+    <!-- Pace -->
+    <link href="~/Content/css/pace.css" rel="stylesheet">
+
+    <!-- Endless -->
+    <link href="~/Content/css/endless.min.css" rel="stylesheet">
+    <link href="~/Content/css/endless-skin.css" rel="stylesheet">
+
+    <!-- style -->
+    <link href="~/Content/style/style.css" rel="stylesheet">
+
+</head>
+@*oncontextmenu="return false" ondragstart="return false"*@
+<body class="overflow-hidden">
+    <!-- Overlay Div -->
+    <div id="overlay" class="transparent"></div>
+
+    <!-- /wrapper -->
+    <div id="wrapper">
+        <div class="row header" style="background-color: white; background-repeat: repeat;border-bottom: 1px solid #88B348">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="logo" style="text-align:center">
+                    <img src="~/Content/images/bannerppal.jpg" style="background-repeat: repeat;" height="150" alt="logo" />
+                </div>
+            </div>
+        </div>
+        <!-- top-nav-->
+        <br /><div class="col-md-12">
+            <div class="alert-animated">
+                <div class="alert-inner">
+                    <div class="alert-message">
+                        Bienvenido @Session["NameClient"].ToString(), Dirección IP Actual @Context.Request.UserHostAddress, Fecha @System.DateTime.Now.Date.ToString("dd/MM/yyyy").
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /top-nav-->
+        @RenderBody()
+        <!-- footer -->
+        <div class="col-sm-6 centrar">
+            <span class="footer-brand">
+                <strong class="text-primary">Sistema de Compra Musical</strong>
+            </span>
+            <p> Desarrollado por  Jhohan Alexander Vasquez Sierra </p>
+        </div><!-- /.col -->
+
+        <div class="col-sm-12 centrar">
+            <p> Este sitio se visualiza mejor con Internet Explorer 10, Firefox 20, Google Chrome 25 (o superiores). Con una resolución mínima de 1024 x 768 pixeles.</p>
+        </div>
+
+        <!-- /footer -->
+
+    </div>
+    <!-- /wrapper -->
+    <a href="" id="scroll-to-top" class="hidden-print"><i class="fa fa-chevron-up"></i></a>
+    <!--Modal TimeUP -->
+    <div class="modal bg-dark fade" data-backdrop="static" data-add-back-btn="false" data-keyboard="false" id="TimeUP">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Inactividad Detectada</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        No se ha detectado actividad en los últimos 3 minutos.<br />
+                        Por su seguridad sus sesión se ha cerrado.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-success" onClick="borrarcookie()" href="@Url.Action("Index","Home")">Ingresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Bootstrap -->
+    <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Datatable -->
+    <script src='~/Content/js/jquery.dataTables.min.js'></script>
+
+    <script src='~/Content/js/chosen.jquery.min.js'></script>
+
+    <!-- Mask-input -->
+    <script src='~/Content/js/jquery.maskedinput.min.js'></script>
+
+    <!-- Datepicker -->
+    <script src='~/Content/js/bootstrap-datepicker.min.js'></script>
+
+    <!-- Timepicker -->
+    <script src='~/Content/js/bootstrap-timepicker.min.js'></script>
+
+    <!-- Slider -->
+    <script src='~/Content/js/bootstrap-slider.min.js'></script>
+
+    <!-- Tag input -->
+    <script src='~/Content/js/jquery.tagsinput.min.js'></script>
+
+    <!-- WYSIHTML5 -->
+    <script src='~/Content/js/wysihtml5-0.3.0.min.js'></script>
+    <script src='~/Content/js/uncompressed/bootstrap-wysihtml5.js'></script>
+
+    <!-- Dropzone -->
+    <script src='~/Content/js/dropzone.min.js'></script>
+
+    <!-- Parsley -->
+    <script src="~/Content/js/parsley.min.js"></script>
+
+    <!-- MaskMoney -->
+    <script src="~/Content/js/jquery.maskMoney.js"></script>
+
+    <!-- Modernizr -->
+    <script src='~/Content/js/modernizr.min.js'></script>
+
+    <!-- Pace -->
+    <script src='~/Content/js/pace.min.js'></script>
+
+    <!-- Popup Overlay -->
+    <script src='~/Content/js/jquery.popupoverlay.min.js'></script>
+
+    <!-- Slimscroll -->
+    <script src='~/Content/js/jquery.slimscroll.min.js'></script>
+
+    <!-- Cookie -->
+    <script src='~/Content/js/jquery.cookie.min.js'></script>
+
+    <!-- Endless -->
+    <script src="~/Content/js/endless/endless_form.js"></script>
+    <script src="~/Content/js/endless/endless.js"></script>
+
+    <script src="~/Scripts/Util/General.js"></script>
+    <link href="~/Content/bootstrap/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <script src="~/Content/bootstrap/js/plugins/toastr/toastr.min.js"></script>
+
+
+</body>
+</html>

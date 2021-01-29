@@ -1,0 +1,148 @@
+﻿@model MusicStore.Web.Models.SongSet
+
+@{
+    ViewBag.Title = "Eliminar Cancion";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- some CSS styling changes and overrides -->
+<style>
+    .kv-avatar .file-preview-frame, .kv-avatar .file-preview-frame:hover {
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        text-align: center;
+    }
+
+    .kv-avatar .file-input {
+        display: table-cell;
+        max-width: 220px;
+    }
+</style>
+@Html.HiddenFor(model => model.Id, new { @class = "form-control", @id = "hddId" })
+<!-- breadcrumb -->
+<div id="breadcrumb">
+    <ul class="breadcrumb">
+        <li><i class="fa fa-home"></i><a href="@Url.Action("Index", "Admin")"> Inicio</a></li>
+        <li>Registro SongSet</li>
+        <li class="active">Eliminar SongSet</li>
+    </ul>
+</div>
+
+<!-- Titulo de página -->
+<div class="main-header clearfix">
+    <div class="page-title">
+        <h3 class="no-margin"><i class="fa fa-trash-o fa-sm"></i>&nbsp;¿Seguro desea eliminar la canción seleccionada?</h3>
+    </div>
+</div>
+
+<div class="padding-md">
+    <div class="row">
+
+        <!-- Contenido -->
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="pull-left">
+                        <i class="fa fa-user"></i>&nbsp;Eliminar Canción
+                    </span>
+                    <ul class="tool-bar">
+                        <li><a href="#" class="refresh-widget" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Actualizar"><i class="fa fa-refresh"></i></a></li>
+                        <li><a href="#aportes" data-toggle="collapse"><i class="fa fa-arrows-v"></i></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body collapse in">
+                    <!-- body -->
+                    <div class="col-md-12">
+
+                        <form class="form-horizontal no-margin" id="formValidate" data-validate="parsley">
+                            <div class="form-group">
+                                <div class="kv-avatar center-block" style="width: 200px">
+                                    <input id="avatar" name="avatar" type="file" data-required="true" class="file-loading">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Nombre Completo</label>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "txtName", @data_required = "true" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div style="text-align:center">
+                                    <a id="btnDelete" class="btn btn-primary animated-bar">
+                                        <i class="fa fa-trash-o"></i>&nbsp;Eliminar
+                                    </a>
+                                    <a class="btn btn-default" href="@Url.Action("Index", "SongSet", new {active = false})">
+                                        <i class="fa fa-reply"></i>&nbsp; Volver al Listado
+                                    </a>
+                                </div>
+
+                            }
+                        </form>
+
+                    </div>
+                    <div class="loading-overlay">
+                        <i class="loading-icon fa fa-refresh fa-spin fa-lg"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contenido -->
+
+    </div>
+</div>
+
+<link href="~/Content/css/all-krajee.css" rel="stylesheet" />
+<link href="~/Content/css/fileinput.min.css" rel="stylesheet" />
+<script src="~/Content/all-krajee.js"></script>
+<script src="~/Content/fileinput.min.js"></script>
+<!-- the fileinput plugin initialization -->
+<script type="text/javascript">
+
+    $("#btnDelete").click(function () {
+
+        var token = $('[name=__RequestVerificationToken]').val();
+        var Id = $("#hddId").val();
+
+        $.ajax({
+            dataType: 'json',
+            type: "POST",
+            headers: { "__RequestVerificationToken": token },
+            url: '@Url.Action("DeleteConfirmed", "SongSet")',
+            data: JSON.stringify({ id: Id }),
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                switch (result) {
+                    case "delete":
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "progressBar": true,
+                            "positionClass": "toast-top-full-width",
+                            "onclick": null,
+                            "showDuration": "500",
+                            "hideDuration": "1000",
+                            "timeOut": "3000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.options.onHidden = function () {
+                              $(location).attr('href', "@Url.Action("Index", "SongSet", new { id = 0, name = "" })");
+                        };
+                        toastr.success('Canción eliminada con exito.', 'Registro Canción');
+                        break;
+                }
+            }
+        });
+    });
+</script>
